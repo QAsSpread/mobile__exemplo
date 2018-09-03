@@ -4,6 +4,8 @@ import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
+import java.util.concurrent.TimeUnit;
+
 public class LogIn extends BasePage {
     public LogIn(AppiumDriver driver) {
         super(driver);
@@ -16,9 +18,22 @@ public class LogIn extends BasePage {
 
     @Step("Entrar no Aplicativo do Google Gmail.")
     public void openGmail() throws InterruptedException {
+
         click(newBtn);
-        textClick(emails, "reiload@gmail.com");
-        click(acessar);
+        menu_account();
+        boolean result = getTextBollean( title );
+
+        if (result==false) {
+            TimeUnit.SECONDS.sleep(5);
+            menu_account();
+        }
+
         assertText(title, "Principal");
     }
+
+    public void menu_account() throws InterruptedException {
+        textClick(emails, "reiload@gmail.com");
+        click(acessar);
+    }
+
 }
