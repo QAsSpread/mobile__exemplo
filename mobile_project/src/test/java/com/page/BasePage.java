@@ -101,7 +101,7 @@ class BasePage {
     public WebElement textClick(By locator, String text) throws InterruptedException {
 
         System.out.println( locator );
-        Thread.sleep( 1000 );
+        Thread.sleep( 2000 );
         wait.until( ExpectedConditions.presenceOfAllElementsLocatedBy( locator ) );
         List<MobileElement> AllSearchResults = (List<MobileElement>) driver.findElements( locator );
         WebElement element = null;
@@ -127,7 +127,7 @@ class BasePage {
     public WebElement textContainsClick(By locator, String text) throws InterruptedException {
 
         System.out.println( locator );
-        Thread.sleep( 1000 );
+        Thread.sleep( 2000 );
         wait.until( ExpectedConditions.presenceOfAllElementsLocatedBy( locator ) );
         List<MobileElement> AllSearchResults = (List<MobileElement>) driver.findElements( locator );
         WebElement element = null;
