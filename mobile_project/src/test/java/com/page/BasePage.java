@@ -144,6 +144,8 @@ class BasePage {
                 }
 
             } catch (Exception e) {
+                Thread.sleep( 2000 );
+                element.click();
                 System.out.println( e.getMessage() );
             }
         }
