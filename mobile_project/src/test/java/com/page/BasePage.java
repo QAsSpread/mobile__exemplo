@@ -101,7 +101,7 @@ class BasePage {
     public WebElement textClick(By locator, String text) throws InterruptedException {
 
         System.out.println( locator );
-        Thread.sleep( 2000 );
+        Thread.sleep( 1000 );
         wait.until( ExpectedConditions.presenceOfAllElementsLocatedBy( locator ) );
         List<MobileElement> AllSearchResults = (List<MobileElement>) driver.findElements( locator );
         WebElement element = null;
@@ -135,9 +135,9 @@ class BasePage {
             element = eachResult;
             try {
                 System.out.println( eachResult.getText() );
-                text = text.toLowerCase();
+                String textx = text.toLowerCase();
                 String app_text = eachResult.getText().toLowerCase();
-                if (app_text.contains( text )) {
+                if (app_text.contains( textx )) {
                     eachResult.click();
                     Thread.sleep( 2000 );
                     break;
