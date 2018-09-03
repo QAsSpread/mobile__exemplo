@@ -18,12 +18,13 @@ public class SendEmail extends BasePage {
     private By btnAnexo = By.id("com.google.android.gm:id/add_attachment");
     private By menuAnexo = By.className("android.widget.TextView");
     private By firstFile = By.id("android:id/title");
+    private By TextView = By.className( "android.widget.TextView" );
 
     // Page Enviados
     private By menu_base = By.id("com.google.android.gm:id/mail_toolbar");
     private By imag_menu = By.className("android.widget.ImageButton");
-    private By enviados = By.className("android.widget.TextView");
 
+    
     @Step("Enviar um Email com Anexo.")
     public void sendEmail() throws InterruptedException {
 
@@ -41,7 +42,8 @@ public class SendEmail extends BasePage {
 
         click(btnAnexo);
         textClick(menuAnexo, "Anexar arquivo");
-        textContainsClick(firstFile, "Screenshot");
+        sendKeys(firstFile, "Screenshot");
+        textClick(TextView, "ABRIR");
         click(btnSend);
 
         openMenu();
@@ -54,11 +56,10 @@ public class SendEmail extends BasePage {
             openMenu();
             clickFirst(validacao);
         }
-        Thread.sleep( 5000 ); // somente para o pessoal ver
     }
 
     public void openMenu() throws InterruptedException {
         clickSubElem(menu_base, imag_menu);
-        textClick( enviados, "Enviados" );
+        textClick( TextView, "Enviados" );
     }
 }
