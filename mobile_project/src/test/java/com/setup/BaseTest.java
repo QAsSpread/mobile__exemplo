@@ -76,13 +76,17 @@ public class BaseTest {
                 System.out.println( "A8" );
                 DeviceSetup.prepareGalaxyA8();
                 break;
+            case "Asus":
+                System.out.println( "Asus" );
+                DeviceSetup.prepareAsus();
+                break;
             case "J1":
                 System.out.println( "J1" );
                 DeviceSetup.prepareGalaxyJ1();
                 break;
-            case "Asus":
-                System.out.println( "Asus" );
-                DeviceSetup.prepareAsus();
+            case "G5":
+                System.out.println( "Moto G5" );
+                DeviceSetup.prepareMotoG5();
                 break;
         }
         wait = new WebDriverWait(driver,30);
