@@ -111,7 +111,7 @@ class BasePage {
                 System.out.println( eachResult.getText() );
                 if (eachResult.getText().equalsIgnoreCase( text )) {
                     eachResult.click();
-                    Thread.sleep( 2000 );
+                    //Thread.sleep( 2000 );
                     break;
                 }
 
