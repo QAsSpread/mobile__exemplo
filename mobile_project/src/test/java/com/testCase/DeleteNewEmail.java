@@ -1,7 +1,7 @@
 package com.testCase;
 
 import com.page.LogIn;
-import com.page.SendEmail;
+import com.page.DeleteEmail;
 import com.setup.BaseTest;
 import io.qameta.allure.*;
 import listener.TestListener;
@@ -11,17 +11,16 @@ import org.testng.annotations.Test;
 @Listeners({TestListener.class})
 @Epic("Regression Tests")
 @Feature("CRUD email")
-public class SendNewEmail extends BaseTest {
+public class DeleteNewEmail extends BaseTest {
 
         @Test
         @Severity(SeverityLevel.BLOCKER)
-        @Description("Test Description: Escrever um Email")
+        @Description("Test Description: Escrever um Email e Seleciona o Mesmo validando os dados enviados.")
         @Story("Create email")
         public void chargerTest() throws InterruptedException {
-            LogIn page = new LogIn(driver);
-            SendEmail send_page = new SendEmail( driver );
-            page.openGmail();
-            send_page.sendEmail();
-        }
 
+            DeleteEmail delete_page = new DeleteEmail( driver );
+            delete_page.deleteEmail();
+
+        }
 }

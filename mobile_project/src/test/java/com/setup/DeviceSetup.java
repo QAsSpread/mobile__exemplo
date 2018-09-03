@@ -19,7 +19,7 @@ public class DeviceSetup extends BaseTest {
     //String device = System.getenv("device");
     //if(device != null && device.equalsIgnoreCase("Android")){
 
-    static AppiumDriver prepareDeviceAndroid() throws MalformedURLException {
+    static AppiumDriver prepareGalaxyA8() throws MalformedURLException {
 
         File currDir = new File("");
         String path = currDir.getAbsolutePath();
@@ -27,6 +27,7 @@ public class DeviceSetup extends BaseTest {
 
         //Set up desired capabilities and pass the Android app-activity and app-package to Appium
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("udid","5200a11fee23b461");
         capabilities.setCapability("deviceName","Galaxy A8 (2018)");
         capabilities.setCapability("deviceVersion", "7.7.1");
         capabilities.setCapability("platformName","Android");
@@ -35,7 +36,55 @@ public class DeviceSetup extends BaseTest {
         File file = new File(path + "\\apk\\gmail-8-8-12-209077217-release.apk");
         capabilities.setCapability("app", file.getAbsolutePath());
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //driver.manage().timeouts().pageLoadTimeout( 10, TimeUnit.SECONDS );
+        return driver;
+    }
+
+    static AppiumDriver prepareGalaxyJ1() throws MalformedURLException {
+
+        File currDir = new File("");
+        String path = currDir.getAbsolutePath();
+        System.out.println("Project Path: " + path);
+
+        //Set up desired capabilities and pass the Android app-activity and app-package to Appium
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("deviceName","4200ffebc60a73c3");
+        capabilities.setCapability("deviceVersion", "5.1.1");
+        capabilities.setCapability("platformVersion", "5.1.1");
+        capabilities.setCapability("platformName","Android");
+        capabilities.setCapability("appPackage", "com.google.android.gm");
+        capabilities.setCapability("appActivity","com.google.android.gm.ConversationListActivityGmail"); // This is Launcher activity of your app (you can get it from apk info app)
+        File file = new File(path + "\\apk\\gmail-8-8-12-209077217-release.apk");
+        capabilities.setCapability("app", file.getAbsolutePath());
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //driver.manage().timeouts().pageLoadTimeout( 10, TimeUnit.SECONDS );
+        return driver;
+    }
+
+    static AppiumDriver prepareAsus() throws MalformedURLException {
+
+        File currDir = new File("");
+        String path = currDir.getAbsolutePath();
+        System.out.println("Project Path: " + path);
+
+        //Set up desired capabilities and pass the Android app-activity and app-package to Appium
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("udid","H3AZB6017701DCM");
+        capabilities.setCapability("deviceName","ASUS_Z012DC");
+        capabilities.setCapability("deviceVersion", "8.0.0");
+        capabilities.setCapability("platformVersion", "8.0.0");
+        capabilities.setCapability("platformName","Android");
+        capabilities.setCapability("unicodeKeyboard","true");
+        capabilities.setCapability("resetKeyboard","true");
+        capabilities.setCapability("appPackage", "com.google.android.gm");
+        capabilities.setCapability("appActivity","com.google.android.gm.ConversationListActivityGmail"); // This is Launcher activity of your app (you can get it from apk info app)
+        File file = new File(path + "\\apk\\gmail-8-8-12-209077217-release.apk");
+        capabilities.setCapability("app", file.getAbsolutePath());
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //driver.manage().timeouts().pageLoadTimeout( 10, TimeUnit.SECONDS );
         return driver;
     }
 

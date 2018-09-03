@@ -70,7 +70,21 @@ public class BaseTest {
 
     @BeforeSuite()
     public void setUp() throws MalformedURLException, InterruptedException, FileNotFoundException {
-        DeviceSetup.prepareDeviceAndroid();
+        String test = System.getProperty("device");
+        switch (test) {
+            case "A8":
+                System.out.println( "A8" );
+                DeviceSetup.prepareGalaxyA8();
+                break;
+            case "J1":
+                System.out.println( "J1" );
+                DeviceSetup.prepareGalaxyJ1();
+                break;
+            case "Asus":
+                System.out.println( "Asus" );
+                DeviceSetup.prepareAsus();
+                break;
+        }
         wait = new WebDriverWait(driver,30);
     }
 

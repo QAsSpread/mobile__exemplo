@@ -9,13 +9,19 @@ group 'com.mobile_project'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 configurations {
     agent
 }
 
 test.doFirst {
-    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+    jvmArgs "-javaagent:${configurations.agent.singleFile}",
+    "-Xmx512m"
 }
 
 repositories {
@@ -31,12 +37,18 @@ dependencies {
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
     compile group: 'com.relevantcodes', name: 'extentreports', version: '2.41.2'
     compile group: 'ru.yandex.qatools.ashot', name: 'ashot', version: '1.5.4'
-    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.3'
+    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.6.0'
+    compile group: 'io.qameta.allure', name: 'allure-maven', version: '2.9'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: '3.14.0'
     testCompile group: 'io.qameta.allure', name: 'allure-junit4', version: '2.7.0'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.10'
+    //compile group: 'io.qameta.allure', name: 'allure-gradle', version: '2.5'
 
 }
+
+//apply plugin: "io.qameta.allure"
+
 
 intellij {
     version '2018.2'
@@ -56,12 +68,36 @@ test {
     testLogging {
         events "PASSED", "STARTED", "FAILED", "SKIPPED"
     }
-    systemProperty 'env', System.getProperty('env', 'all')
+    systemProperty 'device', System.getProperty('device', 'all')
+    systemProperty 'project_device', sysProp
 }
 
 allure {
     version = '2.2.1'
     autoconfigure = true
-    aspectjweaver = true
-    allureJavaVersion = "2.5"
+    //resultsDir = file('build/allure-results')
+    reportDir = file('build/reports/allure-report')
 }
+
+apply plugin: "java"
+sourceSets {
+    generated {
+        java.srcDirs = ["$buildDir/generated"]
+    }
+    main {
+        java.srcDirs = ["src/java"]
+        compileClasspath += sourceSets.generated.output
+    }
+}
+compileGeneratedJava {
+    options.warnings = false
+}
+
+//task printProps {
+//    doLast {
+//        println commandLineProjectProp
+//        println gradlePropertiesProp
+//        println systemProjectProp
+//        println System.properties['system']
+//    }
+//}

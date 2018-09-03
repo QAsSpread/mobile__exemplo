@@ -1,23 +1,24 @@
 package com.page;
 
 import io.appium.java_client.*;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import io.appium.java_client.android.nativekey.AndroidKey;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
-import java.time.Duration;
 import java.util.List;
 import org.openqa.selenium.*;
-
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidKeyCode;
 
+import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.Assert.assertThat;
 
 
 class BasePage {
@@ -26,10 +27,11 @@ class BasePage {
     public WebDriverWait wait;
     public io.appium.java_client.TouchAction touchAction;
 
+
     //Constructor
     public BasePage(AppiumDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,30);
+        wait = new WebDriverWait(driver,70);
     }
 
     void click(By element) {
@@ -43,22 +45,46 @@ class BasePage {
         elem.findElement(element02).click();
     }
 
-//    void tap(By element) {
-//        wait.until(ExpectedConditions.elementToBeClickable(element));
-//        action.tap( (PointOption) element);
-//        action.perform();
-//    }
-
     void scroll(WebElement element) {
         TouchAction action = new TouchAction( driver );
         action.moveTo( (PointOption) element );
         action.perform();
     }
 
+    @SuppressWarnings("unchecked")
     void clickFirst(By element) {
+        try {
+
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element));
-        List<WebElement> li = driver.findElements(element);
-        li.get(1).click();
+        List<MobileElement> li = (List<MobileElement>) driver.findElements(element);
+
+        li.get(0).click();
+
+        } catch (Exception e) {
+            System.out.println( "Tentando uma Segunda Vez..." );
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element));
+            List<MobileElement> li = (List<MobileElement>)driver.findElements(element);
+            li.get(0).click();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    Boolean clickFirstBoolean(By element) {
+
+        boolean result = true;
+
+        try {
+
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element));
+            List<MobileElement> li = driver.findElements(element);
+            li.get(0).click();
+
+        } catch (Exception e) {
+            System.out.println( e );
+            result = false;
+
+        }
+        return result;
     }
 
     void sendKeys(By element, String text) {
@@ -67,13 +93,20 @@ class BasePage {
         elem.sendKeys(text);
     }
 
-    public Boolean textClick(By locator, String text) {
+    void sendKeysElement(WebElement element, String text) {
+        element.sendKeys(text);
+    }
+
+    @SuppressWarnings("unchecked")
+    public WebElement textClick(By locator, String text) throws InterruptedException {
 
         System.out.println( locator );
+        Thread.sleep( 1000 );
         wait.until( ExpectedConditions.presenceOfAllElementsLocatedBy( locator ) );
         List<MobileElement> AllSearchResults = (List<MobileElement>) driver.findElements( locator );
-
+        WebElement element = null;
         for (WebElement eachResult : AllSearchResults) {
+            element = eachResult;
             try {
                 System.out.println( eachResult.getText() );
                 if (eachResult.getText().equalsIgnoreCase( text )) {
@@ -84,28 +117,73 @@ class BasePage {
 
             } catch (Exception e) {
                 System.out.println( e.getMessage() );
-                return false;
             }
         }
-        return true;
+
+        return element;
     }
 
-    public void enter(By locator) {
+    @SuppressWarnings("unchecked")
+    public WebElement textContainsClick(By locator, String text) throws InterruptedException {
 
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
-        WebElement elem = driver.findElement(locator);
-        elem.sendKeys(Keys.ENTER);
+        System.out.println( locator );
+        Thread.sleep( 1000 );
+        wait.until( ExpectedConditions.presenceOfAllElementsLocatedBy( locator ) );
+        List<MobileElement> AllSearchResults = (List<MobileElement>) driver.findElements( locator );
+        WebElement element = null;
+        for (WebElement eachResult : AllSearchResults) {
+            element = eachResult;
+            try {
+                System.out.println( eachResult.getText() );
+                text = text.toLowerCase();
+                String app_text = eachResult.getText().toLowerCase();
+                if (app_text.contains( text )) {
+                    eachResult.click();
+                    Thread.sleep( 2000 );
+                    break;
+                }
+
+            } catch (Exception e) {
+                System.out.println( e.getMessage() );
+            }
+        }
+
+        return element;
     }
-    public void tab(By locator) {
 
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
-        WebElement elem = driver.findElement(locator);
-        elem.sendKeys(Keys.TAB);
+    // Enter in current element.
+    public void enter() {
+
+         ((AndroidDriver)driver).pressKey(new KeyEvent(AndroidKey.ENTER) );
+
+    }
+
+    // Tab in current element.
+    public void tab() {
+
+        ((AndroidDriver)driver).pressKey(new KeyEvent(AndroidKey.TAB) );
+
     }
 
     String getText(By element) {
+        String text = "";
         wait.until(ExpectedConditions.presenceOfElementLocated(element));
-        return driver.findElement(element).getText();
+        text = driver.findElement(element).getText();
+        System.out.println(text);
+        return text;
+    }
+
+    Boolean getTextBollean(By element) throws InterruptedException {
+        boolean result = true;
+        Thread.sleep( 3000 );
+        try{
+            String text = driver.findElement(element).getText();
+            System.out.println(text);
+        } catch (Exception e) {
+            System.out.println( e.getMessage() );
+            result = false;
+        }
+        return result;
     }
 
     boolean isEnableElement(By element) {
@@ -118,7 +196,15 @@ class BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(element));
         Thread.sleep( 2000 ); // Espera o texto do elemento.
         String elem_text = driver.findElement( element ).getText();
-        Assert.assertEquals(elem_text, text);
-        System.out.println(elem_text + "=" + text);
+        String allRemoved = elem_text.replaceAll("^\\s+|\\s+$", "").trim();
+        System.out.println(allRemoved.toLowerCase() + "=" + text.toLowerCase());
+        assertThat(allRemoved.toLowerCase(), containsString(text.toLowerCase()));
+    }
+    void assertTextElement(WebElement element, String text) throws InterruptedException {
+        Thread.sleep( 2000 ); // Espera o texto do elemento.
+        String elem_text = element.getText();
+        String allRemoved = elem_text.replaceAll("^\\s+|\\s+$", "").trim();
+        System.out.println(allRemoved.toLowerCase() + "=" + text.toLowerCase());
+        assertThat(allRemoved.toLowerCase(), containsString(text.toLowerCase()));
     }
 }

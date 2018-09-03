@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Test Report">
+<suite name="Testes de Aceitação">
 
-
-    <test name="Create New Email">
+    <test name="Feature Email">
         <classes>
             <class name="com.testCase.SendNewEmail"></class>
+            <class name="com.testCase.DeleteNewEmail"></class>
         </classes>
     </test>
-
 
 </suite>
