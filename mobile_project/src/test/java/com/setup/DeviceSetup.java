@@ -82,7 +82,7 @@ public class DeviceSetup extends BaseTest {
         capabilities.setCapability("appActivity","com.google.android.gm.ConversationListActivityGmail"); // This is Launcher activity of your app (you can get it from apk info app)
         File file = new File(path + "\\apk\\gmail-8-8-12-209077217-release.apk");
         capabilities.setCapability("app", file.getAbsolutePath());
-        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4724/wd/hub"), capabilities);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         //driver.manage().timeouts().pageLoadTimeout( 10, TimeUnit.SECONDS );
         return driver;
