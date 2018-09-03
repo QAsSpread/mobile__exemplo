@@ -24,7 +24,7 @@ public class SendEmail extends BasePage {
     private By menu_base = By.id("com.google.android.gm:id/mail_toolbar");
     private By imag_menu = By.className("android.widget.ImageButton");
 
-    
+
     @Step("Enviar um Email com Anexo.")
     public void sendEmail() throws InterruptedException {
 
@@ -37,8 +37,8 @@ public class SendEmail extends BasePage {
         sendKeysElement(element_text, "Testando....");
         assertTextElement(element_text, "Testando....");
 
-        sendKeys(assunto, "Teste Enviando e-mail via Appium!");
-        assertText(assunto, "Teste Enviando e-mail via Appium!");
+        sendKeys(assunto, "Teste Enviando e-mail via Appium");
+        assertText(assunto, "Teste Enviando e-mail via Appium");
 
         click(btnAnexo);
         textClick(menuAnexo, "Anexar arquivo");
