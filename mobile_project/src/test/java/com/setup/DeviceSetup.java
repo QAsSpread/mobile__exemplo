@@ -99,7 +99,8 @@ public class DeviceSetup extends BaseTest {
 
         //Set up desired capabilities and pass the Android app-activity and app-package to Appium
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("deviceName","4200ffebc60a73c3");
+        capabilities.setCapability("udid","4200ffebc60a73c3");
+        capabilities.setCapability("deviceName","SM_J120M");
         capabilities.setCapability("deviceVersion", "5.1.1");
         capabilities.setCapability("platformVersion", "5.1.1");
         capabilities.setCapability("platformName","Android");
