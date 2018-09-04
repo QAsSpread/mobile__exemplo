@@ -19,6 +19,30 @@ public class DeviceSetup extends BaseTest {
     //String device = System.getenv("device");
     //if(device != null && device.equalsIgnoreCase("Android")){
 
+    static AppiumDriver prepareTabletSamsung() throws MalformedURLException {
+
+        File currDir = new File("");
+        String path = currDir.getAbsolutePath();
+        System.out.println("Project Path: " + path);
+
+        //Set up desired capabilities and pass the Android app-activity and app-package to Appium
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("udid","4107241c78ea8fa3");
+        capabilities.setCapability("deviceName","4107241c78ea8fa3");
+        capabilities.setCapability("deviceVersion", "4.1.2");
+        capabilities.setCapability("platformName","Android");
+        capabilities.setCapability("appPackage", "com.google.android.gm");
+        capabilities.setCapability("unicodeKeyboard","true");
+        capabilities.setCapability("resetKeyboard","true");
+        capabilities.setCapability("appActivity","com.google.android.gm.ConversationListActivityGmail"); // This is Launcher activity of your app (you can get it from apk info app)
+        File file = new File(path + "\\apk\\gmail-8-8-12-209077217-release.apk");
+        capabilities.setCapability("app", file.getAbsolutePath());
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //driver.manage().timeouts().pageLoadTimeout( 10, TimeUnit.SECONDS );
+        return driver;
+    }
+
     static AppiumDriver prepareMotoG5() throws MalformedURLException {
 
         File currDir = new File("");
@@ -32,6 +56,8 @@ public class DeviceSetup extends BaseTest {
         capabilities.setCapability("deviceVersion", "7.0");
         capabilities.setCapability("platformName","Android");
         capabilities.setCapability("appPackage", "com.google.android.gm");
+        capabilities.setCapability("unicodeKeyboard","true");
+        capabilities.setCapability("resetKeyboard","true");
         capabilities.setCapability("appActivity","com.google.android.gm.ConversationListActivityGmail"); // This is Launcher activity of your app (you can get it from apk info app)
         File file = new File(path + "\\apk\\gmail-8-8-12-209077217-release.apk");
         capabilities.setCapability("app", file.getAbsolutePath());
@@ -54,6 +80,8 @@ public class DeviceSetup extends BaseTest {
         capabilities.setCapability("deviceVersion", "7.7.1");
         capabilities.setCapability("platformName","Android");
         capabilities.setCapability("appPackage", "com.google.android.gm");
+        capabilities.setCapability("unicodeKeyboard","true");
+        capabilities.setCapability("resetKeyboard","true");
         capabilities.setCapability("appActivity","com.google.android.gm.ConversationListActivityGmail"); // This is Launcher activity of your app (you can get it from apk info app)
         File file = new File(path + "\\apk\\gmail-8-8-12-209077217-release.apk");
         capabilities.setCapability("app", file.getAbsolutePath());
