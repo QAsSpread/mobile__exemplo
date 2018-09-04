@@ -10,6 +10,7 @@ import io.appium.java_client.touch.offset.PointOption;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -26,7 +27,7 @@ class BasePage {
     public AppiumDriver driver;
     public WebDriverWait wait;
     public io.appium.java_client.TouchAction touchAction;
-
+    public io.appium.java_client.PerformsTouchActions touchActions;
 
     //Constructor
     public BasePage(AppiumDriver driver) {
@@ -34,9 +35,10 @@ class BasePage {
         wait = new WebDriverWait(driver,70);
     }
 
-    void click(By element) {
+    void click(By element) throws InterruptedException {
         wait.until(ExpectedConditions.elementToBeClickable(element));
         driver.findElement(element).click();
+        Thread.sleep( 1000 );
     }
 
     void clickSubElem(By element01, By element02) {
@@ -87,10 +89,15 @@ class BasePage {
         return result;
     }
 
-    void sendKeys(By element, String text) {
+    void sendKeys(By element, String text) throws InterruptedException {
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(element));
         WebElement elem = driver.findElement(element);
+        try{
         elem.sendKeys(text);
+        Thread.sleep( 1000 );
+        } catch (Exception e) {
+            System.out.println( e.getMessage() );
+        }
     }
 
     void sendKeysElement(WebElement element, String text) {
@@ -127,29 +134,33 @@ class BasePage {
     public WebElement textContainsClick(By locator, String text) throws InterruptedException {
 
         System.out.println( locator );
-        Thread.sleep( 2000 );
+        Thread.sleep( 3000 );
         wait.until( ExpectedConditions.presenceOfAllElementsLocatedBy( locator ) );
-        List<MobileElement> AllSearchResults = (List<MobileElement>) driver.findElements( locator );
+        List<WebElement> AllSearchResults = (List<WebElement>) driver.findElements( locator );
         WebElement element = null;
         for (WebElement eachResult : AllSearchResults) {
             element = eachResult;
             try {
+                Actions action = new Actions(driver);
                 System.out.println( eachResult.getText() );
                 String textx = text.toLowerCase();
                 String app_text = eachResult.getText().toLowerCase();
+                action.moveToElement(element).sendKeys(Keys.DOWN).perform();
                 if (app_text.contains( textx )) {
-                    eachResult.click();
-                    Thread.sleep( 2000 );
-                    break;
+                    System.out.println( "Click in: " + eachResult.getText() );
+                    action.moveToElement(element).clickAndHold().perform();
+                    action.moveToElement(element).sendKeys( Keys.ENTER).perform();
+                    element.click();
+                    return element;
                 }
 
             } catch (Exception e) {
                 Thread.sleep( 2000 );
-                element.click();
+                AllSearchResults.get(0).click();
                 System.out.println( e.getMessage() );
             }
         }
-
+        AllSearchResults.get(0).click();
         return element;
     }
 
