@@ -37,8 +37,8 @@ public class SendEmail extends BasePage {
         sendKeysElement(element_text, "Testando....");
         assertTextElement(element_text, "Testando....");
 
-        sendKeys(assunto, "Teste Enviando e-mail via Appium");
-        assertText(assunto, "Teste Enviando e-mail via Appium");
+        sendKeys(assunto, "Teste Enviando e-mail via Appium.");
+        assertText(assunto, "Teste Enviando e-mail via Appium.");
 
         click(btnAnexo);
         textClick(menuAnexo, "Anexar arquivo");
@@ -47,7 +47,7 @@ public class SendEmail extends BasePage {
         click(btnSend);
 
         openMenu();
-        String string = "Teste Enviando e-mail via Appium!";
+        String string = "Teste Enviando e-mail via Appium";
         By validacao = By.xpath("//android.view.View[contains(@content-desc,'" + string + "\')]");
 
         boolean result = clickFirstBoolean(validacao);
