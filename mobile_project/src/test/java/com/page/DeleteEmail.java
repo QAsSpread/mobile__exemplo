@@ -25,7 +25,7 @@ public class DeleteEmail extends BasePage {
 
         clickSubElem(menu_base, imag_menu);
         textClick( enviados, "Enviados" );
-        String string = "Teste Enviando e-mail via Appium!";
+        String string = "Teste Enviando e-mail via Appium";
         By validacao = By.xpath("//android.view.View[contains(@content-desc,'" + string + "\')]");
         clickFirst(validacao);
         assertText(texto, "Testando....");
